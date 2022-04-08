@@ -6,16 +6,31 @@ namespace GameTemplete
 {
     public class BasePopup : MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start()
+        #region Unity Methods
+        private void OnEnable() => EnablePopup();
+        private void Start() => InitializePopup();
+        private void Update() => UpdatePopup();
+        private void OnDisable() => DisablePopup();
+        #endregion Unity Methods
+
+        #region Main Methods
+        /// <summary>
+        /// 팝업을 BackManager에 등록
+        /// </summary>
+        private void EnablePopup() => BackManager.Instance.AddAction(Close);
+        /// <summary>
+        /// 팝업을 BackManager에서 해제
+        /// </summary>
+        protected virtual void DisablePopup() => BackManager.Instance.RemoveAction(Close);
+
+        protected virtual void InitializePopup() { }
+        protected virtual void UpdatePopup() { }
+
+        public virtual void Close()
         {
-
+            gameObject.SetActive(false);
+            //PopupManager.Instance.ClosePopup(GetType());
         }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
+        #endregion Main Methods
     }
 }

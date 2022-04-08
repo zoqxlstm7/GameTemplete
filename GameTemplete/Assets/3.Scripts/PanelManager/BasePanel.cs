@@ -6,16 +6,20 @@ namespace GameTemplete
 {
     public class BasePanel : MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start()
-        {
+        #region Unity Methods
+        private void Awake() => PanelManager.RegistPanel(GetType(), this);
+        private void Start() => InitializePanel();
+        private void Update() => UpdatePanel();
+        private void OnDestroy() => DestroyPanel();
+        #endregion Unity Methods
 
-        }
+        #region Main Methods
+        protected virtual void InitializePanel() { }
+        protected virtual void UpdatePanel() { }
+        protected virtual void DestroyPanel() => PanelManager.UnRegistPanel(GetType());
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
+        public void Show() => gameObject.SetActive(true);
+        public void Close() => gameObject.SetActive(false);
+        #endregion Main Methods
     }
 }
